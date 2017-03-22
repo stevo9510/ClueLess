@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class MoveModel
+﻿public class MoveModel
 {
     public int MoveID { get; set; }
 
@@ -10,6 +6,7 @@ public class MoveModel
 
     public override string ToString()
     {
+        // TODO: This needs to generate a friendly name for the Move. 
         return base.ToString();
     }
 

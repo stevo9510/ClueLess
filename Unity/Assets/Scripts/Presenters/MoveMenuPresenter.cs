@@ -15,15 +15,21 @@ public class MoveMenuController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        RemoveChildren();
+        // Clear out move options on start.
+        ClearAllMoveOptions();
+
+        // TODO: Subscribe to server listener for when move options are available.
 
         // TODO: Test code.  Comment me out later
         var mockObject1 = new MoveModel() { MoveID = 1, LocationID = 2 };
         var mockObject2 = new MoveModel() { MoveID = 2, LocationID = 3 };
-        AddChildren(new List<MoveModel>() { mockObject1, mockObject2 });
+        AddMoveOptions(new List<MoveModel>() { mockObject1, mockObject2 });
     }
 
-    private void RemoveChildren()
+    /// <summary>
+    /// Clear the move options
+    /// </summary>
+    private void ClearAllMoveOptions()
     {
         foreach (Transform child in MoveOptionHost.transform)
         {
@@ -31,7 +37,12 @@ public class MoveMenuController : MonoBehaviour {
         }
     }
 
-    private void AddChildren(List<MoveModel> moves)
+    /// <summary>
+    /// Takes in a list of move options and instantiates move option controls for each move
+    /// Wires up to move option button to handle move being made by player.
+    /// </summary>
+    /// <param name="moves"></param>
+    private void AddMoveOptions(List<MoveModel> moves)
     {
         foreach (MoveModel move in moves)
         {
@@ -39,13 +50,20 @@ public class MoveMenuController : MonoBehaviour {
             moveOptionItem.transform.SetParent(this.MoveOptionHost.transform, false);
             MoveOptionViewModel moveViewModel = moveOptionItem.GetComponent<MoveOptionViewModel>();
             moveViewModel.textBox.text = move.ToString();
-            moveViewModel.button.onClick.AddListener(() => MoveHandler(move));
+            moveViewModel.button.onClick.AddListener(() => MoveButtonHandler(move));
         }
     }
 
-    private void MoveHandler(MoveModel movePerformed)
+    /// <summary>
+    /// When move button is clicked, make the move for the player.
+    /// </summary>
+    /// <param name="movePerformed"></param>
+    private void MoveButtonHandler(MoveModel movePerformed)
     {
+        // TODO: Handle making game move.  Call to server to make game move
 
+        
+        ClearAllMoveOptions();
     } 
 }
 

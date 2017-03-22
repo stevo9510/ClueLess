@@ -52,4 +52,15 @@ public class StandardEnums
         ConBall = 20,
         BallKitch = 21
     }
+
+    public enum Move
+    {
+        MoveToHallway = 1,
+        TakeSecretPassageAndSuggest = 2,
+        MoveToRoomAndSuggest = 3, 
+        StayInRoomAndSuggest = 4,
+        MakeAnAccusation = 5,
+        EndTurn = 6
+    }
+
 }
