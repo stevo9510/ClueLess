@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveMenuController : MonoBehaviour {
+public class MoveMenuPresenter : MonoBehaviour {
 
     /// <summary>
     /// Prefab used to instantiate each Move Option in the list
