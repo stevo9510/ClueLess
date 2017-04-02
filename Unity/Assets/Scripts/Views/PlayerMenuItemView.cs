@@ -6,8 +6,8 @@ public class PlayerMenuItemView : MonoBehaviour
     private Color DEFAULT_BACKGROUND_COLOR;
     private Color ELIMINATION_COLOR;
     private Color INACTIVE_COLOR;
-    private const int INACTIVE_ALPHA = 80;
-    private const int ACTIVE_ALPHA = 255;
+    private const float INACTIVE_ALPHA = 0.60F;
+    private const float ACTIVE_ALPHA = 1.0F;
     
     public Image BackgroundImage;
     public Image PlayerPortrait;
@@ -15,10 +15,10 @@ public class PlayerMenuItemView : MonoBehaviour
     public Text PlayerNote;
     private PlayerMenuItemViewModel playerViewModel;
 
-    void Start()
+    private void Awake()
     {
-        this.DEFAULT_BACKGROUND_COLOR = new Color(204, 232, 255, ACTIVE_ALPHA);
-        this.ELIMINATION_COLOR = new Color(255, 0, 0, 100);
+        this.DEFAULT_BACKGROUND_COLOR = new Color(204.0F/255.0F, 232.0F/255.0F, 255.0F/255.0F, ACTIVE_ALPHA);
+        this.ELIMINATION_COLOR = new Color(1, 0, 0, 0.4F);
         this.INACTIVE_COLOR = new Color(DEFAULT_BACKGROUND_COLOR.r, DEFAULT_BACKGROUND_COLOR.g, DEFAULT_BACKGROUND_COLOR.b, INACTIVE_ALPHA);
     }
 
@@ -62,9 +62,9 @@ public class PlayerMenuItemView : MonoBehaviour
 
     private void UpdateAllFromViewModel()
     {
-        UpdateIsActive();
         UpdateIsAtTurn();
         UpdateIsEliminated();
+        UpdateIsActive();
         UpdatePlayerName();
         UpdatePlayerNote();
         UpdatePlayerPortrait();
