@@ -5,6 +5,12 @@ public class PlayerMenuItemViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
 
+    private StandardEnums.PlayerEnum _playerID;
+    public StandardEnums.PlayerEnum PlayerID
+    {
+        get { return _playerID; }
+    }
+
     #region Getter/Setter Properties that fire OnNotifyPropertyChanged When Set
 
     private Image _playerPortrait;
@@ -38,12 +44,6 @@ public class PlayerMenuItemViewModel : INotifyPropertyChanged
             _playerNote = value;
             OnPropertyChanged("PlayerNote");
         }
-    }
-
-    private StandardEnums.PlayerEnum _playerID;
-    public StandardEnums.PlayerEnum PlayerID
-    {
-        get { return _playerID; }
     }
 
     private bool _isActive;

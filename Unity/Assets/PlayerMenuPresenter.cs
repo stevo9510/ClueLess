@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMenuPresenter : MonoBehaviour {
 
@@ -11,6 +9,5 @@ public class PlayerMenuPresenter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 }
