@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class MoveOptionViewModel : MonoBehaviour {
+public class MoveOptionView : MonoBehaviour {
 
     public Text textBox;
 

@@ -48,7 +48,7 @@ public class MoveMenuPresenter : MonoBehaviour {
         {
             GameObject moveOptionItem = Instantiate(MoveOptionPrefab);
             moveOptionItem.transform.SetParent(this.MoveOptionHost.transform, false);
-            MoveOptionViewModel moveViewModel = moveOptionItem.GetComponent<MoveOptionViewModel>();
+            MoveOptionView moveViewModel = moveOptionItem.GetComponent<MoveOptionView>();
             moveViewModel.textBox.text = move.ToString();
             moveViewModel.button.onClick.AddListener(() => MoveButtonHandler(move));
         }

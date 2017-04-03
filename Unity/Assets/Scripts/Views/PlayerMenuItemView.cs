@@ -87,12 +87,26 @@ public class PlayerMenuItemView : MonoBehaviour
 
     private void UpdateIsActive()
     {
-        this.BackgroundImage.color = playerViewModel.IsActive ? DEFAULT_BACKGROUND_COLOR : INACTIVE_COLOR;
+        UpdateBackgroundImage();
     }
 
     private void UpdateIsEliminated()
     {
-        this.BackgroundImage.color = playerViewModel.IsEliminated ? this.ELIMINATION_COLOR : this.DEFAULT_BACKGROUND_COLOR;
+        UpdateBackgroundImage();
+    }
+
+    private void UpdateBackgroundImage()
+    {
+        Color backgroundColor = DEFAULT_BACKGROUND_COLOR;
+        if(!playerViewModel.IsActive)
+        {
+            backgroundColor = INACTIVE_COLOR;
+        }
+        else if(playerViewModel.IsEliminated)
+        {
+            backgroundColor = ELIMINATION_COLOR;
+        }
+        this.BackgroundImage.color = backgroundColor;
     }
 
     private void UpdateIsAtTurn()
