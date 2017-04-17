@@ -10,11 +10,11 @@ public class StandardValueRepository : Singleton<StandardValueRepository>
 
     private Dictionary<StandardEnums.LocationEnum, string> locationNames; 
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         InitializeDefaultPlayerNames();
         InitializeLocationNames();
-
         SetPlayerNamesToDefault();
     }
 
