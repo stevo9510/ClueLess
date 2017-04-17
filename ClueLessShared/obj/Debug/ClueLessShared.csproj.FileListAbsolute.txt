@@ -1,0 +1,5 @@
+C:\Users\stevo9510\Documents\ClueLess\ClueLessShared\bin\Debug\ClueLessShared.dll
+C:\Users\stevo9510\Documents\ClueLess\ClueLessShared\bin\Debug\ClueLessShared.pdb
+C:\Users\stevo9510\Documents\ClueLess\ClueLessShared\obj\Debug\ClueLessShared.csprojResolveAssemblyReference.cache
+C:\Users\stevo9510\Documents\ClueLess\ClueLessShared\obj\Debug\ClueLessShared.dll
+C:\Users\stevo9510\Documents\ClueLess\ClueLessShared\obj\Debug\ClueLessShared.pdb

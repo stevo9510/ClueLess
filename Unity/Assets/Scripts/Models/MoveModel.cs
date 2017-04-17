@@ -6,6 +6,7 @@
 
     public override string ToString()
     {
+        
         // TODO: This needs to generate a friendly name for the Move. 
         return base.ToString();
     }
