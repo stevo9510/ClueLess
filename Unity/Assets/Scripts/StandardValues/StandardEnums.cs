@@ -53,7 +53,32 @@ public class StandardEnums
         BallKitch = 21
     }
 
-    public enum Move
+    public enum CardEnum
+    {
+        Study = 1,
+        Hall = 2,
+        Lounge = 3,
+        Library = 4,
+        BilliardRoom = 5,
+        DiningRoom = 6,
+        Conservatory = 7,
+        Ballroom = 8,
+        Kitchen = 9,
+        Scarlet = 10,
+        Mustard = 11,
+        Orchid = 12,
+        Green = 13,
+        Peacock = 14,
+        Plum = 15,
+        Candlestick = 16,
+        Dagger = 17,
+        LeadPipe = 18,
+        Revolver = 19,
+        Rope = 20,
+        Wrench = 21
+    }
+
+    public enum MoveEnum
     {
         MoveToHallway = 1,
         TakeSecretPassageAndSuggest = 2,
