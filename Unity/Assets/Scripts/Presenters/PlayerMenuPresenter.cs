@@ -43,8 +43,8 @@ public class PlayerMenuPresenter : MonoBehaviour {
 
     private PlayerMenuItemViewModel CreateDefaultViewModel(StandardEnums.PlayerEnum playerID, Image portrait)
     {
-        player1ViewModel = new PlayerMenuItemViewModel(playerID, StandardValueRepository.Instance.GetPlayerName(playerID), portrait);
-        return player1ViewModel;
+        var viewModel = new PlayerMenuItemViewModel(playerID, StandardValueRepository.Instance.GetPlayerName(playerID), portrait);
+        return viewModel;
     }
 
     // Update is called once per frame
