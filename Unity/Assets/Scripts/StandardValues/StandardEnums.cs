@@ -53,6 +53,22 @@ public class StandardEnums
         BallKitch = 21
     }
 
+    /// <summary>
+    /// First 9 are rooms; rest are hallways
+    /// </summary>
+    public enum RoomEnum
+    {
+        Study = 1,
+        Hall = 2,
+        Lounge = 3,
+        Library = 4,
+        BilliardRoom = 5,
+        DiningRoom = 6,
+        Conservatory = 7,
+        Ballroom = 8,
+        Kitchen = 9
+    }
+
     public enum CardEnum
     {
         Study = 1,
