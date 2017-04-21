@@ -1,6 +1,7 @@
 Unity/Library/*
 Unity/Temp/*
 Unity/Assets/Editor.meta
+Unity/obj/Debug*
 
 /[Ll]ibrary/
 /[Tt]emp/
