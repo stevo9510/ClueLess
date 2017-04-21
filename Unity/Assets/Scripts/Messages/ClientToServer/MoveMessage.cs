@@ -1,5 +1,4 @@
-﻿using System;
-/// <summary>
+﻿/// <summary>
 /// Message sent from client to server when making a game move
 /// </summary>
 public class MoveMessage : BaseClientToServerMessage
@@ -26,17 +25,6 @@ public class MoveMessage : BaseClientToServerMessage
     /// The player that is being accused or suggested (if applicable)
     /// </summary>
     public StandardEnums.PlayerEnum? PlayerID { get; set; }
-
-    /// <summary>
-    /// Defines the MessageID for this class
-    /// </summary>
-    public override StandardEnums.ClientToServerMessageEnum MessageID
-    {
-        get
-        {
-            return StandardEnums.ClientToServerMessageEnum.Move;
-        }
-    }
 
     /// <summary>
     /// Default constructor
