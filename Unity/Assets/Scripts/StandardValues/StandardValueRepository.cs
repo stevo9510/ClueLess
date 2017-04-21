@@ -1,21 +1,132 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class StandardValueRepository : Singleton<StandardValueRepository>
 {
+    #region Game Icons
+
+    public Sprite CardSpriteStudy;
+    public Sprite CardSpriteHall;
+    public Sprite CardSpriteLounge;
+    public Sprite CardSpriteLibrary;
+    public Sprite CardSpriteBilliardRoom;
+    public Sprite CardSpriteDiningRoom;
+    public Sprite CardSpriteConservatory;
+    public Sprite CardSpriteBallroom;
+    public Sprite CardSpriteKitchen;
+    public Sprite CardSpriteScarlet;
+    public Sprite CardSpriteMustard;
+    public Sprite CardSpriteOrchid;
+    public Sprite CardSpriteGreen;
+    public Sprite CardSpritePeacock;
+    public Sprite CardSpritePlum;
+    public Sprite CardSpriteCandlestick;
+    public Sprite CardSpriteDagger;
+    public Sprite CardSpriteLeadPipe;
+    public Sprite CardSpriteRevolver;
+    public Sprite CardSpriteRope;
+    public Sprite CardSpriteWrench;
+
+    #endregion
+
     public event EventHandler PlayerDetailsChanged;
 
     private Dictionary<StandardEnums.PlayerEnum, string> defaultPlayerNames;
     private Dictionary<StandardEnums.PlayerEnum, string> playerNames;
-
-    private Dictionary<StandardEnums.LocationEnum, string> locationNames; 
+    private Dictionary<StandardEnums.CardEnum, Sprite> cardSpriteMapping;
+    private Dictionary<StandardEnums.LocationEnum, string> locationNames;
+    public Dictionary<StandardEnums.RoomEnum, StandardEnums.CardEnum> RoomToCardEnumMapping;
+    public Dictionary<StandardEnums.PlayerEnum, StandardEnums.CardEnum> PlayerToCardEnumMapping;
+    public Dictionary<StandardEnums.WeaponEnum, StandardEnums.CardEnum> WeaponToCardEnumMapping;
 
     protected override void Awake()
     {
         base.Awake();
+
+        InitializeEntityToCardMappings();
         InitializeDefaultPlayerNames();
         InitializeLocationNames();
+        InitializeCardSpriteMapping();
         SetPlayerNamesToDefault();
+    }
+
+    private void InitializeEntityToCardMappings()
+    {
+        this.RoomToCardEnumMapping = new Dictionary<StandardEnums.RoomEnum, StandardEnums.CardEnum>();
+        this.PlayerToCardEnumMapping = new Dictionary<StandardEnums.PlayerEnum, StandardEnums.CardEnum>();
+        this.WeaponToCardEnumMapping = new Dictionary<StandardEnums.WeaponEnum, StandardEnums.CardEnum>();
+
+        RoomToCardEnumMapping[StandardEnums.RoomEnum.Ballroom] = StandardEnums.CardEnum.Ballroom;
+        RoomToCardEnumMapping[StandardEnums.RoomEnum.BilliardRoom] = StandardEnums.CardEnum.BilliardRoom;
+        RoomToCardEnumMapping[StandardEnums.RoomEnum.Conservatory] = StandardEnums.CardEnum.Conservatory;
+        RoomToCardEnumMapping[StandardEnums.RoomEnum.DiningRoom] = StandardEnums.CardEnum.DiningRoom;
+        RoomToCardEnumMapping[StandardEnums.RoomEnum.Hall] = StandardEnums.CardEnum.Hall;
+        RoomToCardEnumMapping[StandardEnums.RoomEnum.Kitchen] = StandardEnums.CardEnum.Kitchen;
+        RoomToCardEnumMapping[StandardEnums.RoomEnum.Library] = StandardEnums.CardEnum.Library;
+        RoomToCardEnumMapping[StandardEnums.RoomEnum.Lounge] = StandardEnums.CardEnum.Lounge;
+        RoomToCardEnumMapping[StandardEnums.RoomEnum.Study] = StandardEnums.CardEnum.Study;
+
+        PlayerToCardEnumMapping[StandardEnums.PlayerEnum.Green] = StandardEnums.CardEnum.Green;
+        PlayerToCardEnumMapping[StandardEnums.PlayerEnum.Mustard] = StandardEnums.CardEnum.Mustard;
+        PlayerToCardEnumMapping[StandardEnums.PlayerEnum.Orchid] = StandardEnums.CardEnum.Orchid;
+        PlayerToCardEnumMapping[StandardEnums.PlayerEnum.Peacock] = StandardEnums.CardEnum.Peacock;
+        PlayerToCardEnumMapping[StandardEnums.PlayerEnum.Plum] = StandardEnums.CardEnum.Plum;
+        PlayerToCardEnumMapping[StandardEnums.PlayerEnum.Scarlet] = StandardEnums.CardEnum.Scarlet;
+
+        WeaponToCardEnumMapping[StandardEnums.WeaponEnum.Candlestick] = StandardEnums.CardEnum.Candlestick;
+        WeaponToCardEnumMapping[StandardEnums.WeaponEnum.Dagger] = StandardEnums.CardEnum.Dagger;
+        WeaponToCardEnumMapping[StandardEnums.WeaponEnum.LeadPipe] = StandardEnums.CardEnum.LeadPipe;
+        WeaponToCardEnumMapping[StandardEnums.WeaponEnum.Revolver] = StandardEnums.CardEnum.Revolver;
+        WeaponToCardEnumMapping[StandardEnums.WeaponEnum.Rope] = StandardEnums.CardEnum.Rope;
+        WeaponToCardEnumMapping[StandardEnums.WeaponEnum.Wrench] = StandardEnums.CardEnum.Wrench;
+
+    }
+
+    private void InitializeCardSpriteMapping()
+    {
+        cardSpriteMapping = new Dictionary<StandardEnums.CardEnum, Sprite>();
+        cardSpriteMapping[StandardEnums.CardEnum.Study] = CardSpriteStudy;
+        cardSpriteMapping[StandardEnums.CardEnum.Hall] = CardSpriteHall;
+        cardSpriteMapping[StandardEnums.CardEnum.Lounge] = CardSpriteLounge;
+        cardSpriteMapping[StandardEnums.CardEnum.Library] = CardSpriteLibrary;
+        cardSpriteMapping[StandardEnums.CardEnum.BilliardRoom] = CardSpriteBilliardRoom;
+        cardSpriteMapping[StandardEnums.CardEnum.DiningRoom] = CardSpriteDiningRoom;
+        cardSpriteMapping[StandardEnums.CardEnum.Conservatory] = CardSpriteConservatory;
+        cardSpriteMapping[StandardEnums.CardEnum.Ballroom] = CardSpriteBallroom;
+        cardSpriteMapping[StandardEnums.CardEnum.Kitchen] = CardSpriteKitchen;
+        cardSpriteMapping[StandardEnums.CardEnum.Scarlet] = CardSpriteScarlet;
+        cardSpriteMapping[StandardEnums.CardEnum.Mustard] = CardSpriteMustard;
+        cardSpriteMapping[StandardEnums.CardEnum.Orchid] = CardSpriteOrchid;
+        cardSpriteMapping[StandardEnums.CardEnum.Green] = CardSpriteGreen;
+        cardSpriteMapping[StandardEnums.CardEnum.Peacock] = CardSpritePeacock;
+        cardSpriteMapping[StandardEnums.CardEnum.Plum] = CardSpritePlum;
+        cardSpriteMapping[StandardEnums.CardEnum.Candlestick] = CardSpriteCandlestick;
+        cardSpriteMapping[StandardEnums.CardEnum.Dagger] = CardSpriteDagger;
+        cardSpriteMapping[StandardEnums.CardEnum.LeadPipe] = CardSpriteLeadPipe;
+        cardSpriteMapping[StandardEnums.CardEnum.Revolver] = CardSpriteRevolver;
+        cardSpriteMapping[StandardEnums.CardEnum.Rope] = CardSpriteRope;
+        cardSpriteMapping[StandardEnums.CardEnum.Wrench] = CardSpriteWrench; 
+    }
+
+    public Sprite GetCardSprite(StandardEnums.CardEnum cardID)
+    {
+        return cardSpriteMapping[cardID];
+    }
+
+    public Sprite GetWeaponCardSprite(StandardEnums.WeaponEnum weaponID)
+    {
+        return cardSpriteMapping[WeaponToCardEnumMapping[weaponID]];
+    }
+
+    public Sprite GetRoomCardSprite(StandardEnums.RoomEnum roomID)
+    {
+        return cardSpriteMapping[RoomToCardEnumMapping[roomID]];
+    }
+
+    public Sprite GetPlayerCardSprite(StandardEnums.PlayerEnum playerID)
+    {
+        return cardSpriteMapping[PlayerToCardEnumMapping[playerID]];
     }
 
     private void InitializeLocationNames()
@@ -63,7 +174,7 @@ public class StandardValueRepository : Singleton<StandardValueRepository>
     {
         playerNames[playerID] = name;
     }
-    
+
     public string GetLocationName(StandardEnums.LocationEnum locationID)
     {
         return locationNames[locationID];
@@ -71,7 +182,7 @@ public class StandardValueRepository : Singleton<StandardValueRepository>
 
     public void GetHallwayLocations(StandardEnums.LocationEnum locationID, out string locNameOne, out string locNameTwo)
     {
-        switch(locationID)
+        switch (locationID)
         {
             case StandardEnums.LocationEnum.BallKitch:
                 locNameOne = locationNames[StandardEnums.LocationEnum.Ballroom];

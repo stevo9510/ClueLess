@@ -54,7 +54,7 @@ public class CardPresenter : MonoBehaviour {
         ViewCardButton.enabled = false;
 
         // TODO: Comment out later because it will handled by the server
-        HandleGameCardsDealt(new List<StandardEnums.CardEnum>() { StandardEnums.CardEnum.Hall, StandardEnums.CardEnum.Dagger });
+        HandleGameCardsDealt(new List<StandardEnums.CardEnum>() { StandardEnums.CardEnum.Hall, StandardEnums.CardEnum.Dagger, StandardEnums.CardEnum.Orchid });
     }
 
     private void ViewCardButtonClick()
@@ -71,6 +71,7 @@ public class CardPresenter : MonoBehaviour {
             GameObject instantiatedCard = Instantiate(CardPrefab);
             instantiatedCard.transform.SetParent(this.CardItemHost.transform, false);
             Button cardButton = instantiatedCard.gameObject.GetComponent<Button>();
+            cardButton.gameObject.GetComponent<Image>().sprite = StandardValueRepository.Instance.GetCardSprite(cardID);
             instantiatedCardButtons[cardID] = instantiatedCard;
             cardButton.onClick.AddListener(() => OnCardClicked(cardID));
         }

@@ -44,11 +44,16 @@ public class MoveMenuPresenter : MonoBehaviour {
         // TODO: Subscribe to server listener for when move options are available.
 
         // TODO: Test code.  Comment me out later
-        var mockObject1 = new MoveModel() { MoveID = 1, LocationID = 2 };
-        var mockObject2 = new MoveModel() { MoveID = 2, LocationID = 3 };
-        var mockObject3 = new MoveModel() { MoveID = 5 };
+        var mockObject1 = new MoveModel() { MoveID = 1, LocationID = 11 };
+        var mockObject2 = new MoveModel() { MoveID = 2, LocationID = 1 };
+        var mockObject25 = new MoveModel() { MoveID = 2, LocationID = 5 };
 
-        AddMoveOptions(new List<MoveModel>() { mockObject1, mockObject2, mockObject3 });
+        var mockObject3 = new MoveModel() { MoveID = 3, LocationID = 3 };
+        var mockObject4 = new MoveModel() { MoveID = 4, LocationID = 7 };
+        var mockObject5 = new MoveModel() { MoveID = 5 };
+        var mockObject6 = new MoveModel() { MoveID = 6 };
+
+        AddMoveOptions(new List<MoveModel>() { mockObject1, mockObject2, mockObject25, mockObject3, mockObject4, mockObject5, mockObject6 });
 
         cachedMoveMessage = null;
     }
