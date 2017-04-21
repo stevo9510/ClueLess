@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 public class GameBoardView : MonoBehaviour {
+
+    #region All Game Objects
+
     public GameObject hallwayStudyHall;
     public GameObject hallwayStudyLib;
     public GameObject hallwayHallLounge;
@@ -37,39 +40,40 @@ public class GameBoardView : MonoBehaviour {
     public GameObject weaponRope;
     public GameObject weaponWrench;
 
-    private Dictionary<StandardEnums.LocationEnum, GameObject> locations;
+    #endregion
+
+    private Dictionary<StandardEnums.LocationEnum, GameObject> locationObjects;
     private Dictionary<StandardEnums.PlayerEnum, GameObject> playerGamePieces;
     private Dictionary<StandardEnums.WeaponEnum, GameObject> weaponGamePieces;
-    private System.Random rand = new System.Random();
-
+    private System.Random randomNumberGenerator = new System.Random();
 
     // Use this for initialization
     void Start () {
-        locations = new Dictionary<StandardEnums.LocationEnum, GameObject>();
+        locationObjects = new Dictionary<StandardEnums.LocationEnum, GameObject>();
         playerGamePieces = new Dictionary<StandardEnums.PlayerEnum, GameObject>();
         weaponGamePieces = new Dictionary<StandardEnums.WeaponEnum, GameObject>();
 
-        locations[StandardEnums.LocationEnum.BallKitch] = hallwayBallKitch;
-        locations[StandardEnums.LocationEnum.Ballroom] = roomBallRoom;
-        locations[StandardEnums.LocationEnum.BillBall] = hallwayBillBall;
-        locations[StandardEnums.LocationEnum.BillDin] = hallwayBillDin;
-        locations[StandardEnums.LocationEnum.BilliardRoom] = roomBilliard;
-        locations[StandardEnums.LocationEnum.ConBall] = hallwayConBall;
-        locations[StandardEnums.LocationEnum.Conservatory] = roomConservatory;
-        locations[StandardEnums.LocationEnum.DiningRoom] = roomDining;
-        locations[StandardEnums.LocationEnum.DinKitch] = hallwayDinKitch;
-        locations[StandardEnums.LocationEnum.Hall] = roomHall;
-        locations[StandardEnums.LocationEnum.HallBill] = hallwayHallBill;
-        locations[StandardEnums.LocationEnum.HallLounge] = hallwayHallLounge;
-        locations[StandardEnums.LocationEnum.Kitchen] = roomKitchen;
-        locations[StandardEnums.LocationEnum.LibBill] = hallwayLibBill;
-        locations[StandardEnums.LocationEnum.LibCon] = hallwayLibCon;
-        locations[StandardEnums.LocationEnum.Library] = roomLibrary;
-        locations[StandardEnums.LocationEnum.Lounge] = roomLounge;
-        locations[StandardEnums.LocationEnum.LoungeDin] = hallwayLoungeDin;
-        locations[StandardEnums.LocationEnum.Study] = roomStudy;
-        locations[StandardEnums.LocationEnum.StudyHall] = hallwayStudyHall;
-        locations[StandardEnums.LocationEnum.StudyLib] = hallwayStudyLib;
+        locationObjects[StandardEnums.LocationEnum.BallKitch] = hallwayBallKitch;
+        locationObjects[StandardEnums.LocationEnum.Ballroom] = roomBallRoom;
+        locationObjects[StandardEnums.LocationEnum.BillBall] = hallwayBillBall;
+        locationObjects[StandardEnums.LocationEnum.BillDin] = hallwayBillDin;
+        locationObjects[StandardEnums.LocationEnum.BilliardRoom] = roomBilliard;
+        locationObjects[StandardEnums.LocationEnum.ConBall] = hallwayConBall;
+        locationObjects[StandardEnums.LocationEnum.Conservatory] = roomConservatory;
+        locationObjects[StandardEnums.LocationEnum.DiningRoom] = roomDining;
+        locationObjects[StandardEnums.LocationEnum.DinKitch] = hallwayDinKitch;
+        locationObjects[StandardEnums.LocationEnum.Hall] = roomHall;
+        locationObjects[StandardEnums.LocationEnum.HallBill] = hallwayHallBill;
+        locationObjects[StandardEnums.LocationEnum.HallLounge] = hallwayHallLounge;
+        locationObjects[StandardEnums.LocationEnum.Kitchen] = roomKitchen;
+        locationObjects[StandardEnums.LocationEnum.LibBill] = hallwayLibBill;
+        locationObjects[StandardEnums.LocationEnum.LibCon] = hallwayLibCon;
+        locationObjects[StandardEnums.LocationEnum.Library] = roomLibrary;
+        locationObjects[StandardEnums.LocationEnum.Lounge] = roomLounge;
+        locationObjects[StandardEnums.LocationEnum.LoungeDin] = hallwayLoungeDin;
+        locationObjects[StandardEnums.LocationEnum.Study] = roomStudy;
+        locationObjects[StandardEnums.LocationEnum.StudyHall] = hallwayStudyHall;
+        locationObjects[StandardEnums.LocationEnum.StudyLib] = hallwayStudyLib;
 
         playerGamePieces[StandardEnums.PlayerEnum.Green] = gamePieceMrGreen;
         playerGamePieces[StandardEnums.PlayerEnum.Mustard] = gamePieceColMustard;
@@ -94,30 +98,46 @@ public class GameBoardView : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Move a player to a location 
+    /// </summary>
+    /// <param name="playerID"></param>
+    /// <param name="locID"></param>
     private void MovePlayer(StandardEnums.PlayerEnum playerID, StandardEnums.LocationEnum locID)
     {
         MoveTransformToLocation(playerGamePieces[playerID].transform, locID);
     }
 
+    /// <summary>
+    /// Move a weapon to a location
+    /// </summary>
+    /// <param name="weaponID"></param>
+    /// <param name="locID"></param>
     private void MoveWeapon(StandardEnums.WeaponEnum weaponID, StandardEnums.LocationEnum locID)
     {
         MoveTransformToLocation(weaponGamePieces[weaponID].transform, locID);
     }
 
-
+    /// <summary>
+    /// Move a general transform to a specified location.  If it is a room being moved to, then 
+    /// a random direction is used to try and avoid collisions of pieces.  
+    /// TODO: May come up with a better, more complex solution if more time permits
+    /// </summary>
+    /// <param name="transformToMove"></param>
+    /// <param name="locID"></param>
     private void MoveTransformToLocation(Transform transformToMove, StandardEnums.LocationEnum locID)
     {
-        Transform locationTransform = locations[locID].transform;
+        Transform locationTransform = locationObjects[locID].transform;
         transformToMove.position = locationTransform.position + (-1.0F * locationTransform.forward);
 
         // this moves the object to a random direction within the location if that location is a room
         if (Enum.GetValues(typeof(StandardEnums.RoomEnum)).Cast<int>().Contains((int)locID))
         {
-            int plusOrMinusRight = rand.NextDouble() > 0.5 ? 1 : -1;
-            int plusOrMinusUp = rand.NextDouble() > 0.5 ? 1 : -1;
+            int plusOrMinusRight = randomNumberGenerator.NextDouble() > 0.5 ? 1 : -1;
+            int plusOrMinusUp = randomNumberGenerator.NextDouble() > 0.5 ? 1 : -1;
             transformToMove.position = transformToMove.position +
-                (2.0F * locationTransform.right * (float)rand.NextDouble() * plusOrMinusRight) +
-                (2.0F * locationTransform.up * (float)rand.NextDouble() * plusOrMinusUp);
+                (2.0F * locationTransform.right * (float)randomNumberGenerator.NextDouble() * plusOrMinusRight) +
+                (2.0F * locationTransform.up * (float)randomNumberGenerator.NextDouble() * plusOrMinusUp);
         }
     }
 

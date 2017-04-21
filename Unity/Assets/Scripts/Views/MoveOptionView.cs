@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class MoveOptionView : MonoBehaviour {
-
+/// <summary>
+/// Simple script each Move Option Prefab has attached to it to allow for setting/subscribing to the textbox and button of the move option
+/// </summary>
+public class MoveOptionView : MonoBehaviour
+{
     public Text textBox;
-
     public Button button; 
-
 }

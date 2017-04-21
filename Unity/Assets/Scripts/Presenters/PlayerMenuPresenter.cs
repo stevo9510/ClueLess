@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerMenuPresenter : MonoBehaviour {
     public PlayerMenuItemView player1View;
@@ -19,12 +18,13 @@ public class PlayerMenuPresenter : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        player1ViewModel = CreateDefaultViewModel(StandardEnums.PlayerEnum.Scarlet, null);
-        player2ViewModel = CreateDefaultViewModel(StandardEnums.PlayerEnum.Mustard, null);
-        player3ViewModel = CreateDefaultViewModel(StandardEnums.PlayerEnum.Orchid, null);
-        player4ViewModel = CreateDefaultViewModel(StandardEnums.PlayerEnum.Green, null);
-        player5ViewModel = CreateDefaultViewModel(StandardEnums.PlayerEnum.Peacock, null);
-        player6ViewModel = CreateDefaultViewModel(StandardEnums.PlayerEnum.Plum, null);
+        // Create all the ViewModels 
+        player1ViewModel = CreateDefaultViewModel(StandardEnums.PlayerEnum.Scarlet);
+        player2ViewModel = CreateDefaultViewModel(StandardEnums.PlayerEnum.Mustard);
+        player3ViewModel = CreateDefaultViewModel(StandardEnums.PlayerEnum.Orchid);
+        player4ViewModel = CreateDefaultViewModel(StandardEnums.PlayerEnum.Green);
+        player5ViewModel = CreateDefaultViewModel(StandardEnums.PlayerEnum.Peacock);
+        player6ViewModel = CreateDefaultViewModel(StandardEnums.PlayerEnum.Plum);
 
         player1View.BindViewModel(player1ViewModel);
         player2View.BindViewModel(player2ViewModel);
@@ -41,15 +41,10 @@ public class PlayerMenuPresenter : MonoBehaviour {
         // TODO: Update all player names here.    
     }
 
-    private PlayerMenuItemViewModel CreateDefaultViewModel(StandardEnums.PlayerEnum playerID, Image portrait)
+    private PlayerMenuItemViewModel CreateDefaultViewModel(StandardEnums.PlayerEnum playerID)
     {
-        var viewModel = new PlayerMenuItemViewModel(playerID, StandardValueRepository.Instance.GetPlayerName(playerID), portrait);
+        var viewModel = new PlayerMenuItemViewModel(playerID, StandardValueRepository.Instance.GetPlayerName(playerID));
         return viewModel;
     }
 
-    // Update is called once per frame
-    void Update ()
-    {
-        
-	}
 }

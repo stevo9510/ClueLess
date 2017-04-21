@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardPresenter : MonoBehaviour {
+public class ViewCardPresenter : MonoBehaviour {
 
     public GameObject CardItemHost;
     public Text TextTitle;
@@ -17,7 +17,7 @@ public class CardPresenter : MonoBehaviour {
     private enum PresenterMode
     {
         ViewCards,
-        PickDebunk
+        PickSuggestionProve
     }
 
     private PresenterMode _currentMode;
@@ -30,7 +30,7 @@ public class CardPresenter : MonoBehaviour {
         set
         {
             _currentMode = value;
-            if(value == PresenterMode.PickDebunk)
+            if(value == PresenterMode.PickSuggestionProve)
             {
                 this.TextTitle.text = "Choose a Card to Prove Suggestion Wrong";
                 this.ViewCardButton.GetComponentInChildren<Text>().text = "Choose Card...";
@@ -82,7 +82,7 @@ public class CardPresenter : MonoBehaviour {
 
     private void HandleDebunkSelection(List<StandardEnums.CardEnum> cardEnums)
     {
-        this.CurrentMode = PresenterMode.PickDebunk;
+        this.CurrentMode = PresenterMode.PickSuggestionProve;
         SetAllActive();
         this.instantiatedCardButtons.Where(kvp => !cardEnums.Contains(kvp.Key)).ToList().ForEach(item => item.Value.SetActive(false));
     }
@@ -115,7 +115,7 @@ public class CardPresenter : MonoBehaviour {
 
     private void OnCardClicked(StandardEnums.CardEnum cardEnum)
     {
-        if (this.CurrentMode == PresenterMode.PickDebunk)
+        if (this.CurrentMode == PresenterMode.PickSuggestionProve)
         {
             // TODO: Send message to server
 
