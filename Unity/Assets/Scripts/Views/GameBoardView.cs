@@ -47,8 +47,16 @@ public class GameBoardView : MonoBehaviour {
     private Dictionary<StandardEnums.WeaponEnum, GameObject> weaponGamePieces;
     private System.Random randomNumberGenerator = new System.Random();
 
+    private IServerToClientMessagePublisher messagePublisher;
+
     // Use this for initialization
     void Start () {
+
+        // TODO: Replace this with actual Socket.IO publisher later. 
+        messagePublisher = new StubServerToClientMessagePublisher();
+        messagePublisher.PlayerMoved += MessagePublisher_PlayerMoved;
+        messagePublisher.WeaponMoved += MessagePublisher_WeaponMoved;
+
         locationObjects = new Dictionary<StandardEnums.LocationEnum, GameObject>();
         playerGamePieces = new Dictionary<StandardEnums.PlayerEnum, GameObject>();
         weaponGamePieces = new Dictionary<StandardEnums.WeaponEnum, GameObject>();
@@ -96,6 +104,24 @@ public class GameBoardView : MonoBehaviour {
         //MovePlayer(StandardEnums.PlayerEnum.Green, StandardEnums.LocationEnum.BillBall);
         //MovePlayer(StandardEnums.PlayerEnum.Scarlet, StandardEnums.LocationEnum.BilliardRoom);
 
+    }
+
+    /// <summary>
+    /// Player Moved message handler
+    /// </summary>
+    /// <param name="msg"></param>
+    private void MessagePublisher_PlayerMoved(PlayerMovedMessage msg)
+    {
+        MovePlayer(msg.playerID, msg.locationID);
+    }
+
+    /// <summary>
+    /// Weapon Moved message handler
+    /// </summary>
+    /// <param name="msg"></param>
+    private void MessagePublisher_WeaponMoved(WeaponMovedMessage msg)
+    {
+        MoveWeapon(msg.weaponID, msg.locationID);
     }
 
     /// <summary>
