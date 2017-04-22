@@ -26,6 +26,7 @@ They will be inactive at first until user connects to game.")]
     /// </summary>
     private void ConnectToGame()
     {
+        Network.Instance.ConnectToGame();
         ModalConnectToGamePanel.Instance().ClosePanel();
         clueLessGraphicalGameplayObjects.ForEach(go => go.SetActive(true));
     }
