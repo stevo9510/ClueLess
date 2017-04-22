@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerMenuItemView : MonoBehaviour
@@ -33,6 +34,14 @@ public class PlayerMenuItemView : MonoBehaviour
     {
         switch (e.PropertyName)
         {
+            case "IsClient":
+                UpdateIsClient();
+                break;
+
+            case "IsWinner":
+                UpdateIsWinner();
+                break;
+
             case "IsAtTurn":
                 UpdateIsAtTurn();
                 break;
@@ -45,10 +54,6 @@ public class PlayerMenuItemView : MonoBehaviour
                 UpdateIsActive();
                 break;
 
-            case "PlayerNote":
-                UpdatePlayerNote();
-                break;
-
             case "PlayerName":
                 UpdatePlayerName();
                 break;
@@ -56,18 +61,27 @@ public class PlayerMenuItemView : MonoBehaviour
             case "PlayerPortrait":
                 UpdatePlayerPortrait();
                 break;
-
         }
+        UpdatePlayerNote();
     }
 
     private void UpdateAllFromViewModel()
     {
         UpdateIsAtTurn();
         UpdateIsEliminated();
+        UpdateIsWinner();
         UpdateIsActive();
         UpdatePlayerName();
-        UpdatePlayerNote();
         UpdatePlayerPortrait();
+        UpdatePlayerNote();
+    }
+
+    private void UpdateIsWinner()
+    {
+    }
+
+    private void UpdateIsClient()
+    {
     }
 
     private void UpdatePlayerPortrait()
@@ -78,11 +92,6 @@ public class PlayerMenuItemView : MonoBehaviour
     private void UpdatePlayerName()
     {
         this.PlayerName.text = playerViewModel.PlayerName;
-    }
-
-    private void UpdatePlayerNote()
-    {
-        this.PlayerNote.text = playerViewModel.PlayerNote;
     }
 
     private void UpdateIsActive()
@@ -111,6 +120,30 @@ public class PlayerMenuItemView : MonoBehaviour
 
     private void UpdateIsAtTurn()
     {
-        this.PlayerNote.text = playerViewModel.IsAtTurn ? "At Turn!" : string.Empty;
     }
+
+    private void UpdatePlayerNote()
+    {
+        if(this.playerViewModel.IsWinner)
+        {
+            this.PlayerNote.text = "Winner!";
+        }
+        else if(this.playerViewModel.IsEliminated)
+        {
+            this.PlayerNote.text = "Eliminated!";
+        }
+        else if(this.playerViewModel.IsAtTurn)
+        {
+            this.PlayerNote.text = "Current Turn!";
+        }
+        else if(this.playerViewModel.IsClient)
+        {
+            this.PlayerNote.text = "You";
+        }
+        else
+        {
+            this.PlayerNote.text = string.Empty;
+        }
+    }
+
 }
