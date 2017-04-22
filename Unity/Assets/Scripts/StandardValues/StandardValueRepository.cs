@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StandardValueRepository : Singleton<StandardValueRepository>
@@ -32,13 +33,18 @@ public class StandardValueRepository : Singleton<StandardValueRepository>
 
     public event EventHandler PlayerDetailsChanged;
 
+    public StandardEnums.PlayerEnum clientPlayerID;
+
     private Dictionary<StandardEnums.PlayerEnum, string> defaultPlayerNames;
     private Dictionary<StandardEnums.PlayerEnum, string> playerNames;
     private Dictionary<StandardEnums.CardEnum, Sprite> cardSpriteMapping;
     private Dictionary<StandardEnums.LocationEnum, string> locationNames;
+    private Dictionary<StandardEnums.WeaponEnum, string> weaponNames;
+
     public Dictionary<StandardEnums.RoomEnum, StandardEnums.CardEnum> RoomToCardEnumMapping;
     public Dictionary<StandardEnums.PlayerEnum, StandardEnums.CardEnum> PlayerToCardEnumMapping;
     public Dictionary<StandardEnums.WeaponEnum, StandardEnums.CardEnum> WeaponToCardEnumMapping;
+    public Dictionary<StandardEnums.RoomEnum, StandardEnums.LocationEnum> RoomToLocationEnumMapping;
 
     protected override void Awake()
     {
@@ -47,6 +53,7 @@ public class StandardValueRepository : Singleton<StandardValueRepository>
         InitializeEntityToCardMappings();
         InitializeDefaultPlayerNames();
         InitializeLocationNames();
+        InitializeWeaponNames();
         InitializeCardSpriteMapping();
         SetPlayerNamesToDefault();
     }
@@ -56,6 +63,7 @@ public class StandardValueRepository : Singleton<StandardValueRepository>
         this.RoomToCardEnumMapping = new Dictionary<StandardEnums.RoomEnum, StandardEnums.CardEnum>();
         this.PlayerToCardEnumMapping = new Dictionary<StandardEnums.PlayerEnum, StandardEnums.CardEnum>();
         this.WeaponToCardEnumMapping = new Dictionary<StandardEnums.WeaponEnum, StandardEnums.CardEnum>();
+        this.RoomToLocationEnumMapping = new Dictionary<StandardEnums.RoomEnum, StandardEnums.LocationEnum>();
 
         RoomToCardEnumMapping[StandardEnums.RoomEnum.Ballroom] = StandardEnums.CardEnum.Ballroom;
         RoomToCardEnumMapping[StandardEnums.RoomEnum.BilliardRoom] = StandardEnums.CardEnum.BilliardRoom;
@@ -81,6 +89,15 @@ public class StandardValueRepository : Singleton<StandardValueRepository>
         WeaponToCardEnumMapping[StandardEnums.WeaponEnum.Rope] = StandardEnums.CardEnum.Rope;
         WeaponToCardEnumMapping[StandardEnums.WeaponEnum.Wrench] = StandardEnums.CardEnum.Wrench;
 
+        RoomToLocationEnumMapping[StandardEnums.RoomEnum.Ballroom] = StandardEnums.LocationEnum.Ballroom;
+        RoomToLocationEnumMapping[StandardEnums.RoomEnum.BilliardRoom] = StandardEnums.LocationEnum.BilliardRoom;
+        RoomToLocationEnumMapping[StandardEnums.RoomEnum.Conservatory] = StandardEnums.LocationEnum.Conservatory;
+        RoomToLocationEnumMapping[StandardEnums.RoomEnum.DiningRoom] = StandardEnums.LocationEnum.DiningRoom;
+        RoomToLocationEnumMapping[StandardEnums.RoomEnum.Hall] = StandardEnums.LocationEnum.Hall;
+        RoomToLocationEnumMapping[StandardEnums.RoomEnum.Kitchen] = StandardEnums.LocationEnum.Kitchen;
+        RoomToLocationEnumMapping[StandardEnums.RoomEnum.Library] = StandardEnums.LocationEnum.Library;
+        RoomToLocationEnumMapping[StandardEnums.RoomEnum.Lounge] = StandardEnums.LocationEnum.Lounge;
+        RoomToLocationEnumMapping[StandardEnums.RoomEnum.Study] = StandardEnums.LocationEnum.Study;
     }
 
     private void InitializeCardSpriteMapping()
@@ -143,6 +160,18 @@ public class StandardValueRepository : Singleton<StandardValueRepository>
         locationNames[StandardEnums.LocationEnum.Kitchen] = "Kitchen";
     }
 
+    private void InitializeWeaponNames()
+    {
+        weaponNames = new Dictionary<StandardEnums.WeaponEnum, string>();
+        weaponNames[StandardEnums.WeaponEnum.Candlestick] = "Candlestick";
+        weaponNames[StandardEnums.WeaponEnum.Dagger] = "Dagger";
+        weaponNames[StandardEnums.WeaponEnum.LeadPipe] = "Lead Pipe";
+        weaponNames[StandardEnums.WeaponEnum.Revolver] = "Revolver";
+        weaponNames[StandardEnums.WeaponEnum.Rope] = "Rope";
+        weaponNames[StandardEnums.WeaponEnum.Wrench] = "Wrench";
+
+    }
+
     private void InitializeDefaultPlayerNames()
     {
         defaultPlayerNames = new Dictionary<StandardEnums.PlayerEnum, string>();
@@ -178,6 +207,28 @@ public class StandardValueRepository : Singleton<StandardValueRepository>
     public string GetLocationName(StandardEnums.LocationEnum locationID)
     {
         return locationNames[locationID];
+    }
+
+    public string GetRoomName(StandardEnums.RoomEnum roomID)
+    {
+        var locationID = RoomToLocationEnumMapping[roomID];
+        return locationNames[locationID];
+    }
+
+    public string GetWeaponName(StandardEnums.WeaponEnum weaponID)
+    {
+        return weaponNames[weaponID];
+    }
+
+    public string GetCardName(StandardEnums.CardEnum cardID)
+    {
+        if (PlayerToCardEnumMapping.ContainsValue(cardID))
+            return GetPlayerName(PlayerToCardEnumMapping.Where(v => v.Value == cardID).First().Key);
+        else if (WeaponToCardEnumMapping.ContainsValue(cardID))
+            return GetWeaponName(WeaponToCardEnumMapping.Where(v => v.Value == cardID).First().Key);
+        else if (RoomToCardEnumMapping.ContainsValue(cardID))
+            return GetRoomName(RoomToCardEnumMapping.Where(v => v.Value == cardID).First().Key);
+        return string.Empty;
     }
 
     public void GetHallwayLocations(StandardEnums.LocationEnum locationID, out string locNameOne, out string locNameTwo)
