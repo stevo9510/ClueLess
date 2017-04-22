@@ -55,8 +55,8 @@ public class GameBoardView : MonoBehaviour {
 
         // TODO: Replace this with actual Socket.IO publisher later. 
         messagePublisher = new StubServerToClientMessagePublisher();
-        messagePublisher.PlayerMoved += MessagePublisher_PlayerMoved;
-        messagePublisher.WeaponMoved += MessagePublisher_WeaponMoved;
+        messagePublisher.EventPlayerMoved += MessagePublisher_PlayerMoved;
+        messagePublisher.EventWeaponMoved += MessagePublisher_WeaponMoved;
 
         locationObjects = new Dictionary<StandardEnums.LocationEnum, GameObject>();
         playerGamePieces = new Dictionary<StandardEnums.PlayerEnum, GameObject>();

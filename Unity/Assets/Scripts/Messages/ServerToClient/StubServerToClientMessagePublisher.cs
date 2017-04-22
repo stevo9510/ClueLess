@@ -6,16 +6,17 @@
 /// </summary>
 public class StubServerToClientMessagePublisher : IServerToClientMessagePublisher
 {
-    public event Action<AccusationMoveMadeMessage> AccusationMoveMade;
-    public event Action<AccusationResultMessage> AccusationResultReceived;
-    public event Action<CardsDealtMessage> CardsDealt;
-    public event Action<PlayerAssignedIDMessage> PlayerAssignedID;
-    public event Action<PlayerMovedMessage> PlayerMoved;
-    public event Action<PlayersInGameMessage> PlayersInGameChanged;
-    public event Action<PlayerTurnMessage> PlayerTurnChanged;
-    public event Action<SuggestionDebunkMessage> SuggestionDebunkReceived;
-    public event Action<SuggestionMoveMadeMessage> SuggestionMoveMade;
-    public event Action<SuggestionProveOptionMessage> SuggestionProveOptionsReceived;
-    public event Action<SuggestionProveTurnMessage> SuggestionProveTurnChanged;
-    public event Action<WeaponMovedMessage> WeaponMoved;
+    public event Action<AccusationMoveMadeMessage> EventAccusationMoveMade;
+    public event Action<AccusationResultMessage> EventAccusationResultReceived;
+    public event Action<CardsDealtMessage> EventCardsDealt;
+    public event Action<MoveOptionMessage> EventMoveOptionsReceived;
+    public event Action<PlayerAssignedIDMessage> EventPlayerAssignedID;
+    public event Action<PlayerMovedMessage> EventPlayerMoved;
+    public event Action<PlayersInGameMessage> EventPlayersInGameChanged;
+    public event Action<PlayerTurnMessage> EventPlayerTurnChanged;
+    public event Action<SuggestionDebunkMessage> EventSuggestionDebunkReceived;
+    public event Action<SuggestionMoveMadeMessage> EventSuggestionMoveMade;
+    public event Action<SuggestionProveOptionMessage> EventSuggestionProveOptionsReceived;
+    public event Action<SuggestionProveTurnMessage> EventSuggestionProveTurnChanged;
+    public event Action<WeaponMovedMessage> EventWeaponMoved;
 }

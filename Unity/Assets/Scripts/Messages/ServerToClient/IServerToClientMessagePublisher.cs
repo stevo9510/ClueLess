@@ -6,16 +6,17 @@
 /// </summary>
 public interface IServerToClientMessagePublisher
 {
-    event Action<AccusationMoveMadeMessage> AccusationMoveMade;
-    event Action<AccusationResultMessage> AccusationResultReceived;
-    event Action<CardsDealtMessage> CardsDealt;
-    event Action<PlayerAssignedIDMessage> PlayerAssignedID;
-    event Action<PlayerMovedMessage> PlayerMoved;
-    event Action<PlayersInGameMessage> PlayersInGameChanged;
-    event Action<PlayerTurnMessage> PlayerTurnChanged;
-    event Action<SuggestionDebunkMessage> SuggestionDebunkReceived;
-    event Action<SuggestionMoveMadeMessage> SuggestionMoveMade;
-    event Action<SuggestionProveOptionMessage> SuggestionProveOptionsReceived;
-    event Action<SuggestionProveTurnMessage> SuggestionProveTurnChanged;
-    event Action<WeaponMovedMessage> WeaponMoved;
+    event Action<AccusationMoveMadeMessage> EventAccusationMoveMade;
+    event Action<AccusationResultMessage> EventAccusationResultReceived;
+    event Action<CardsDealtMessage> EventCardsDealt;
+    event Action<MoveOptionMessage> EventMoveOptionsReceived;
+    event Action<PlayerAssignedIDMessage> EventPlayerAssignedID;
+    event Action<PlayerMovedMessage> EventPlayerMoved;
+    event Action<PlayersInGameMessage> EventPlayersInGameChanged;
+    event Action<PlayerTurnMessage> EventPlayerTurnChanged;
+    event Action<SuggestionDebunkMessage> EventSuggestionDebunkReceived;
+    event Action<SuggestionMoveMadeMessage> EventSuggestionMoveMade;
+    event Action<SuggestionProveOptionMessage> EventSuggestionProveOptionsReceived;
+    event Action<SuggestionProveTurnMessage> EventSuggestionProveTurnChanged;
+    event Action<WeaponMovedMessage> EventWeaponMoved;
 }

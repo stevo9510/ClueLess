@@ -122,7 +122,9 @@ public class MoveMenuPresenter : MonoBehaviour {
     private void MoveButtonClickHandler(MoveViewModel movePerformed)
     {
         // Start creating the MoveMessage object and see if suggestion/accusation info is needed
-        cachedMoveMessage = new MoveMessage(movePerformed.MoveID, movePerformed.LocationID);
+        cachedMoveMessage = new MoveMessage(movePerformed.MoveID);
+        if (movePerformed.LocationID.HasValue)
+            cachedMoveMessage.LocationID = movePerformed.LocationID.Value;
         
         switch (movePerformed.MoveID)
         {
@@ -221,7 +223,7 @@ public class MoveMenuPresenter : MonoBehaviour {
     private void SendMoveToServer()
     {
         // Send move to server
-
+        Network.Instance.SendMoveMessage(cachedMoveMessage);
         this.cachedMoveMessage = null;
         ClearAllMoveOptions();
     }
