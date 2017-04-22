@@ -5,14 +5,14 @@ public class MoveViewModel
 {
     public StandardEnums.MoveEnum MoveID { get; private set; }
 
-    public StandardEnums.LocationEnum? LocationID { get; private set; }
+    public StandardEnums.LocationEnum LocationID { get; private set; }
 
-    /// <summary>
-    /// Default constructor
-    /// </summary>
-    /// <param name="pMoveID"></param>
-    /// <param name="pLocID"></param>
-    public MoveViewModel(StandardEnums.MoveEnum pMoveID, StandardEnums.LocationEnum? pLocID)
+    public MoveViewModel(StandardEnums.MoveEnum pMoveID)
+    {
+        this.MoveID = pMoveID;
+    }
+
+    public MoveViewModel(StandardEnums.MoveEnum pMoveID, StandardEnums.LocationEnum pLocID)
     {
         this.MoveID = pMoveID;
         this.LocationID = pLocID;
@@ -33,8 +33,7 @@ public class MoveViewModel
             case StandardEnums.MoveEnum.MoveToHallway:
                 string room1;
                 string room2;
-                StandardValueRepository.Instance.GetHallwayLocations(LocationID.Value,
-                    out room1, out room2);
+                StandardValueRepository.Instance.GetHallwayLocations(LocationID, out room1, out room2);
                 return string.Format("Move to Hallway Between {0} and {1}", room1, room2);
             case StandardEnums.MoveEnum.MoveToRoomAndSuggest:
                 return string.Format("Move to {0} and Make Suggestion...", GetRoomName());
@@ -52,6 +51,6 @@ public class MoveViewModel
     /// <returns></returns>
     private string GetRoomName()
     {
-        return StandardValueRepository.Instance.GetLocationName(LocationID.Value);
+        return StandardValueRepository.Instance.GetLocationName(LocationID);
     }
 }

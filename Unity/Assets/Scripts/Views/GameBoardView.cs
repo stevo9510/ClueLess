@@ -53,8 +53,7 @@ public class GameBoardView : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        // TODO: Replace this with actual Socket.IO publisher later. 
-        messagePublisher = new StubServerToClientMessagePublisher();
+        messagePublisher = Network.Instance;
         messagePublisher.EventPlayerMoved += MessagePublisher_PlayerMoved;
         messagePublisher.EventWeaponMoved += MessagePublisher_WeaponMoved;
 

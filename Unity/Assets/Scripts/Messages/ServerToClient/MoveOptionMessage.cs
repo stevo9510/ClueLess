@@ -11,5 +11,5 @@ public class MoveOptionMessage : BaseServerToClientMessage
 public class MoveOption
 {
     public StandardEnums.MoveEnum moveID;
-    public StandardEnums.LocationEnum? locationID;
+    public StandardEnums.LocationEnum locationID;
 }

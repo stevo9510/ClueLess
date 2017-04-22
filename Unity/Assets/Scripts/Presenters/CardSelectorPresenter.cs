@@ -10,14 +10,14 @@ using UnityEngine.UI;
 public class CardSelectorPresenter : MonoBehaviour {
     public event System.Action<int> CardSelected;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         // Wire up an OnClick listener to all card buttons 
         this.GetComponentsInChildren<Button>().ToList().ForEach(
             cardButton => cardButton.onClick.AddListener(() => ButtonHandler(cardButton)));
 	}
-	
+
     /// <summary>
     /// When a button is clicked, get its enum and fire an event to subscribers of the card that was clicked
     /// </summary>

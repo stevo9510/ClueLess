@@ -30,8 +30,11 @@ public class PlayerMenuItemViewModel : INotifyPropertyChanged
         get { return _playerName; }
         set
         {
-            _playerName = value;
-            OnPropertyChanged("PlayerName");
+            if (_playerName != value)
+            {
+                _playerName = value;
+                OnPropertyChanged("PlayerName");
+            }
         }
     }
 
@@ -52,8 +55,11 @@ public class PlayerMenuItemViewModel : INotifyPropertyChanged
         get { return _isActive; }
         set
         {
-            _isActive = value;
-            OnPropertyChanged("IsActive");
+            if (_isActive != value)
+            {
+                _isActive = value;
+                OnPropertyChanged("IsActive");
+            }
         }
     }
 
@@ -63,8 +69,11 @@ public class PlayerMenuItemViewModel : INotifyPropertyChanged
         get { return _isEliminated; }
         set
         {
-            _isEliminated = value;
-            OnPropertyChanged("IsEliminated");
+            if (_isEliminated != value)
+            {
+                _isEliminated = value;
+                OnPropertyChanged("IsEliminated");
+            }
         }
     }
 
@@ -74,8 +83,41 @@ public class PlayerMenuItemViewModel : INotifyPropertyChanged
         get { return _isAtTurn; }
         set
         {
-            _isAtTurn = value;
-            OnPropertyChanged("IsAtTurn");
+            if (_isAtTurn != value)
+            {
+                _isAtTurn = value;
+                OnPropertyChanged("IsAtTurn");
+            }
+        }
+    }
+
+    private bool _isClient;
+
+    public bool IsClient
+    {
+        get { return _isClient; }
+        set
+        {
+            if (_isClient != value)
+            {
+                _isClient = value;
+                OnPropertyChanged("IsClient");
+            }
+        }
+    }
+
+    private bool _isWinner;
+
+    public bool IsWinner
+    {
+        get { return _isWinner; }
+        set
+        {
+            if (value != _isWinner)
+            {
+                _isWinner = value;
+                OnPropertyChanged("IsWinner");
+            }
         }
     }
 
@@ -95,7 +137,7 @@ public class PlayerMenuItemViewModel : INotifyPropertyChanged
         _isActive = false;
         _isEliminated = false;
         _isAtTurn = false;
-
+        _isClient = false;
     }
 
     /// <summary>

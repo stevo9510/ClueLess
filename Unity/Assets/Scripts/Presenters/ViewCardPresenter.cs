@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,9 @@ public class ViewCardPresenter : MonoBehaviour {
     public Text TextTitle;
     public Button ViewCardButton;
     public Button BackButton;
+    public Button NoSuggestionProveAnswerButton;
     public GameObject CardPrefab;
+
 
     private Dictionary<StandardEnums.CardEnum, GameObject> instantiatedCardButtons;
     private Vector3 cameraDefaultPosition;
@@ -39,22 +42,41 @@ public class ViewCardPresenter : MonoBehaviour {
             {
                 this.TextTitle.text = "Player Dealt Cards";
                 this.ViewCardButton.GetComponentInChildren<Text>().text = "View Cards...";
+                this.NoSuggestionProveAnswerButton.gameObject.SetActive(false);
                 SetAllActive();
             }
         }
     }
 
+    private IServerToClientMessagePublisher messagePublisher;
+
 	// Use this for initialization
 	void Start () {
+        messagePublisher = Network.Instance;
+        messagePublisher.EventCardsDealt += MessagePublisher_EventCardsDealt;
+        messagePublisher.EventSuggestionProveOptionsReceived += MessagePublisher_EventSuggestionProveOptionsReceived;
+
         instantiatedCardButtons = new Dictionary<StandardEnums.CardEnum, GameObject>();
         ViewCardButton.onClick.AddListener(new UnityEngine.Events.UnityAction(ViewCardButtonClick));
         BackButton.onClick.AddListener(new UnityEngine.Events.UnityAction(BackButtonClick));
+        NoSuggestionProveAnswerButton.onClick.AddListener(new UnityEngine.Events.UnityAction(NoSuggestionProveAnswerButtonClick));
         this.cameraDefaultPosition = Camera.main.transform.position;
         ClearAllCardItems();
         ViewCardButton.enabled = false;
 
         // TODO: Comment out later because it will handled by the server
         HandleGameCardsDealt(new List<StandardEnums.CardEnum>() { StandardEnums.CardEnum.Hall, StandardEnums.CardEnum.Dagger, StandardEnums.CardEnum.Orchid });
+        //HandleDebunkSelection(new List<StandardEnums.CardEnum>() { StandardEnums.CardEnum.Hall });
+    }
+
+    private void MessagePublisher_EventSuggestionProveOptionsReceived(SuggestionProveOptionMessage obj)
+    {
+        HandleDebunkSelection(obj.cardsPlayerCanSelect);
+    }
+
+    private void MessagePublisher_EventCardsDealt(CardsDealtMessage obj)
+    {
+        HandleGameCardsDealt(obj.cardIDs);
     }
 
     private void ViewCardButtonClick()
@@ -85,6 +107,7 @@ public class ViewCardPresenter : MonoBehaviour {
         this.CurrentMode = PresenterMode.PickSuggestionProve;
         SetAllActive();
         this.instantiatedCardButtons.Where(kvp => !cardEnums.Contains(kvp.Key)).ToList().ForEach(item => item.Value.SetActive(false));
+        this.NoSuggestionProveAnswerButton.gameObject.SetActive(cardEnums.Count == 0);
     }
 
     #endregion
@@ -113,12 +136,21 @@ public class ViewCardPresenter : MonoBehaviour {
 
     #endregion
 
+    private void NoSuggestionProveAnswerButtonClick()
+    {
+        if(this.CurrentMode == PresenterMode.PickSuggestionProve)
+        {
+            Network.Instance.SendSuggestionProveAnswer(new SuggestionProveMessage());
+            this.CurrentMode = PresenterMode.ViewCards;
+            MoveCameraBackToDefaultLocation();
+        }
+    }
+
     private void OnCardClicked(StandardEnums.CardEnum cardEnum)
     {
         if (this.CurrentMode == PresenterMode.PickSuggestionProve)
         {
-            // TODO: Send message to server
-
+            Network.Instance.SendSuggestionProveAnswer(new SuggestionProveMessage(cardEnum));
             this.CurrentMode = PresenterMode.ViewCards;
             MoveCameraBackToDefaultLocation();
         }

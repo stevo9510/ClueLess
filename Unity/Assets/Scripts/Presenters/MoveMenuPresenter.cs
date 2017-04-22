@@ -49,9 +49,14 @@ public class MoveMenuPresenter : MonoBehaviour {
     /// </summary>
     private MoveMessage cachedMoveMessage;
 
+    private IServerToClientMessagePublisher messagePublisher;
+
 	// Use this for initialization
 	void Start ()
     {
+        this.messagePublisher = Network.Instance;
+        this.messagePublisher.EventMoveOptionsReceived += MessagePublisher_EventMoveOptionsReceived;
+
         // Get the Presenter from the card host components
         this.CharacterCardSelectorPresenter = CharacterCardHost.GetComponent<CardSelectorPresenter>();
         this.WeaponCardSelectorPresenter = WeaponCardHost.GetComponent<CardSelectorPresenter>();
@@ -63,20 +68,30 @@ public class MoveMenuPresenter : MonoBehaviour {
         // Clear out move options on start.
         ClearAllMoveOptions();
 
-        // TODO: Subscribe to server listener for when move options are available.
-
         // TODO: Test code.  Comment me out later
         var mockObject1 = new MoveViewModel(StandardEnums.MoveEnum.MoveToHallway, StandardEnums.LocationEnum.DinKitch);
         var mockObject2 = new MoveViewModel(StandardEnums.MoveEnum.MoveToRoomAndSuggest, StandardEnums.LocationEnum.Library);
         var mockObject3 = new MoveViewModel(StandardEnums.MoveEnum.StayInRoomAndSuggest, StandardEnums.LocationEnum.Lounge);
         var mockObject4 = new MoveViewModel(StandardEnums.MoveEnum.TakeSecretPassageAndSuggest, StandardEnums.LocationEnum.Hall);
-        var mockObject5 = new MoveViewModel(StandardEnums.MoveEnum.MakeAnAccusation, null);
-        var mockObject6 = new MoveViewModel(StandardEnums.MoveEnum.EndTurn, null);
+        var mockObject5 = new MoveViewModel(StandardEnums.MoveEnum.MakeAnAccusation);
+        var mockObject6 = new MoveViewModel(StandardEnums.MoveEnum.EndTurn);
         var mockObject7 = new MoveViewModel(StandardEnums.MoveEnum.MoveToHallway, StandardEnums.LocationEnum.LibBill);
 
-        AddMoveOptions(new List<MoveViewModel>() { mockObject1, mockObject2, mockObject3, mockObject4, mockObject5, mockObject6, mockObject7});
+        BindMoveOptionsToView(new List<MoveViewModel>() { mockObject1, mockObject2, mockObject3, mockObject4, mockObject5, mockObject6, mockObject7});
 
         cachedMoveMessage = null;
+    }
+
+    private void MessagePublisher_EventMoveOptionsReceived(MoveOptionMessage obj)
+    {
+        // convert move options into view models and then bind to view
+        var moveOptionViewModels = new List<MoveViewModel>();
+        foreach (MoveOption moveOption in obj.moveOptions)
+        {
+            var vm = new MoveViewModel(moveOption.moveID, moveOption.locationID);
+            moveOptionViewModels.Add(vm);
+        }
+        BindMoveOptionsToView(moveOptionViewModels);
     }
 
     #region Add Move Options
@@ -86,7 +101,7 @@ public class MoveMenuPresenter : MonoBehaviour {
     /// Wires up to move option button to handle move being made by player.
     /// </summary>
     /// <param name="moveViewModels"></param>
-    private void AddMoveOptions(List<MoveViewModel> moveViewModels)
+    private void BindMoveOptionsToView(List<MoveViewModel> moveViewModels)
     {
         foreach (MoveViewModel moveVM in moveViewModels)
         {
@@ -123,8 +138,7 @@ public class MoveMenuPresenter : MonoBehaviour {
     {
         // Start creating the MoveMessage object and see if suggestion/accusation info is needed
         cachedMoveMessage = new MoveMessage(movePerformed.MoveID);
-        if (movePerformed.LocationID.HasValue)
-            cachedMoveMessage.LocationID = movePerformed.LocationID.Value;
+        cachedMoveMessage.LocationID = movePerformed.LocationID;
         
         switch (movePerformed.MoveID)
         {

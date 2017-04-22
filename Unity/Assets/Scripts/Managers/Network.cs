@@ -1,5 +1,5 @@
-﻿using System;
-using SocketIO;
+﻿using SocketIO;
+using System;
 using UnityEngine;
 
 public class Network : Singleton<Network>, IServerToClientMessagePublisher
