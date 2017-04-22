@@ -1,5 +1,11 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Helper class to extend to implement it as a Singleton object (always stays instantiated during the game)
+/// 
+/// This makes more easy referencing at runtime.
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class Singleton<T> : MonoBehaviour where T : Singleton<T>
 {
     private static T instance;
@@ -31,8 +37,6 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
             instance = (T)this;
         }
     }
-
-
 
     protected virtual void OnDestroy()
     {

@@ -2,9 +2,15 @@
 /// This class holds the standard enum values to reference 
 /// for game objects.  These all can be cast into an INT to 
 /// match against a corresponding message ID.
+/// 
+/// Please be careful with changing any of these values because some are hardcoded in the Unity designer (for simplicity in certain areas)
 /// </summary>
 public class StandardEnums
 {
+    /// <summary>
+    /// IMPORTANT: IF you change the value of any the player enums, you will need to update each EntityID within the Unity Designer
+    /// for the PlayerChooserPanel->PlayerPanelItemHost->Each Player Card's CardEnumTag component
+    /// </summary>
     public enum PlayerEnum
     {
         Scarlet = 1,
@@ -15,6 +21,11 @@ public class StandardEnums
         Plum = 6
     }
 
+
+    /// <summary>
+    /// IMPORTANT: IF you change the value of any the weapon enums, you will need to update each EntityID within the Unity Designer
+    /// for the WeaponChooserPanel->WeaponPanelItemHost->Each Weapon Card's CardEnumTag component
+    /// </summary>
     public enum WeaponEnum
     {
         Candlestick = 1,
@@ -54,7 +65,8 @@ public class StandardEnums
     }
 
     /// <summary>
-    /// First 9 are rooms; rest are hallways
+    /// IMPORTANT: IF you change the value of any the room enums, you will need to update each EntityID within the Unity Designer
+    /// for the RoomChooserPanel->RoomPanelItemHost->Each Room Card's CardEnumTag component
     /// </summary>
     public enum RoomEnum
     {
@@ -102,6 +114,13 @@ public class StandardEnums
         StayInRoomAndSuggest = 4,
         MakeAnAccusation = 5,
         EndTurn = 6
+    }
+
+    public enum ClientToServerMessageEnum
+    {
+        ConnectToGame = 1,
+        Move = 2,
+        SuggestionProve = 3
     }
 
 }

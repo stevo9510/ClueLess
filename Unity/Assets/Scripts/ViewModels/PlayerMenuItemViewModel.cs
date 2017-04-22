@@ -87,12 +87,11 @@ public class PlayerMenuItemViewModel : INotifyPropertyChanged
     /// <param name="playerID"></param>
     /// <param name="playerName"></param>
     /// <param name="playerPortrait"></param>
-    public PlayerMenuItemViewModel(StandardEnums.PlayerEnum playerID, string playerName, Image playerPortrait)
+    public PlayerMenuItemViewModel(StandardEnums.PlayerEnum playerID, string playerName)
     {
         _playerID = playerID;
         _playerName = playerName;
         _playerNote = string.Empty;
-        _playerPortrait = playerPortrait;
         _isActive = false;
         _isEliminated = false;
         _isAtTurn = false;

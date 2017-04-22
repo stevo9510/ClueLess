@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using SocketIO;
 using UnityEngine;
-using SocketIO;
 
 public class Network : MonoBehaviour {
 
