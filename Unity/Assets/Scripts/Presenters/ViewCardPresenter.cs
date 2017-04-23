@@ -65,7 +65,7 @@ public class ViewCardPresenter : MonoBehaviour {
         ViewCardButton.enabled = false;
 
         // TODO: Comment out later because it will handled by the server
-        HandleGameCardsDealt(new List<StandardEnums.CardEnum>() { StandardEnums.CardEnum.Hall, StandardEnums.CardEnum.Dagger, StandardEnums.CardEnum.Orchid });
+        //HandleGameCardsDealt(new List<StandardEnums.CardEnum>() { StandardEnums.CardEnum.Hall, StandardEnums.CardEnum.Dagger, StandardEnums.CardEnum.Orchid });
         //HandleDebunkSelection(new List<StandardEnums.CardEnum>() { StandardEnums.CardEnum.Hall });
     }
 

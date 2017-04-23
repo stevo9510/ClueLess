@@ -11,6 +11,7 @@ public class NotificationTextPresenter : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         messagePublisher = Network.Instance;
+        notificationTextbox.text = string.Empty;
         messagePublisher.EventAccusationMoveMade += MessagePublisher_EventAccusationMoveMade;
         messagePublisher.EventAccusationResultReceived += MessagePublisher_EventAccusationResultReceived;
         messagePublisher.EventCardsDealt += MessagePublisher_EventCardsDealt;
@@ -22,12 +23,6 @@ public class NotificationTextPresenter : MonoBehaviour {
         messagePublisher.EventPlayersInGameChanged += MessagePublisher_EventPlayersInGameChanged;
         messagePublisher.EventPlayerMoved += MessagePublisher_EventPlayerMoved;
         messagePublisher.EventPlayerAssignedID += MessagePublisher_EventPlayerAssignedID;
-        notificationTextbox.text = string.Empty;
-        for(int ind=1; ind <= 6; ind++)
-        {
-            MessagePublisher_EventAccusationResultReceived(new AccusationResultMessage()
-            { playerID = (StandardEnums.PlayerEnum)ind, roomID = (StandardEnums.RoomEnum)ind, weaponID = (StandardEnums.WeaponEnum)ind});
-        }
 	}
 
     private void MessagePublisher_EventPlayerAssignedID(PlayerAssignedIDMessage obj)
@@ -127,7 +122,11 @@ public class NotificationTextPresenter : MonoBehaviour {
 
     private void AddNotification(string text)
     {
-        this.notificationTextbox.text = "*" + text + Environment.NewLine + this.notificationTextbox.text;
+        string newLine = string.Empty;
+        if (!string.IsNullOrEmpty(notificationTextbox.text.Trim()))
+            newLine = Environment.NewLine;
+
+        this.notificationTextbox.text = "*" + text + newLine + this.notificationTextbox.text;
         // scroll to bottom
     }
 

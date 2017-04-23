@@ -25,6 +25,8 @@ public class Network : Singleton<Network>, IServerToClientMessagePublisher
     void Start()
     {
         socket = GetComponent<SocketIOComponent>();
+        socket.Connect();
+
         socket.On("AccusationMoveMade", OnAccusationMoveMade);
         socket.On("AccusationResult", OnAccusationResultReceived);
         socket.On("CardsDealt", OnCardsDealt);
@@ -113,7 +115,7 @@ public class Network : Singleton<Network>, IServerToClientMessagePublisher
 
     public void ConnectToGame()
     {
-        socket.Connect();
+        socket.Emit("joinGame");
     }
 
     public void SendMoveMessage(MoveMessage msg)
