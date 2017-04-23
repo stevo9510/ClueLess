@@ -67,8 +67,18 @@ public class NotificationTextPresenter : MonoBehaviour {
     private void MessagePublisher_EventPlayerMoved(PlayerMovedMessage obj)
     {
         string playerName = GetPlayerName(obj.playerID);
-        string locationName = GetLocationName(obj.locationID);
-        AddNotification(string.Format("{0} has moved to {1}", playerName, locationName));
+        if(StandardValueRepository.Instance.RoomToLocationEnumMapping.ContainsValue(obj.locationID))
+        {
+            string roomName = GetRoomName(obj.locationID);
+            AddNotification(string.Format("{0} has moved to {1}", playerName, roomName));
+        }
+        else
+        {
+            string room1;
+            string room2;
+            StandardValueRepository.Instance.GetHallwayLocations(obj.locationID, out room1, out room2);
+            AddNotification(string.Format("{0} has moved to Hallway Between {1} and {2}", playerName, room1, room2));
+        }
     }
 
     private void MessagePublisher_EventPlayersInGameChanged(PlayersInGameMessage obj)
@@ -140,9 +150,9 @@ public class NotificationTextPresenter : MonoBehaviour {
         return StandardValueRepository.Instance.GetRoomName(roomID);
     }
 
-    private string GetLocationName(StandardEnums.LocationEnum locationID)
+    private string GetRoomName(StandardEnums.LocationEnum locationID)
     {
-        return StandardValueRepository.Instance.GetLocationName(locationID);
+        return StandardValueRepository.Instance.GetRoomName(locationID);
     }
 
     private string GetPlayerName(StandardEnums.PlayerEnum playerID)

@@ -68,16 +68,15 @@ public class MoveMenuPresenter : MonoBehaviour {
         // Clear out move options on start.
         ClearAllMoveOptions();
 
-        // TODO: Test code.  Comment me out later
-        var mockObject1 = new MoveViewModel(StandardEnums.MoveEnum.MoveToHallway, StandardEnums.LocationEnum.DinKitch);
-        var mockObject2 = new MoveViewModel(StandardEnums.MoveEnum.MoveToRoomAndSuggest, StandardEnums.LocationEnum.Library);
-        var mockObject3 = new MoveViewModel(StandardEnums.MoveEnum.StayInRoomAndSuggest, StandardEnums.LocationEnum.Lounge);
-        var mockObject4 = new MoveViewModel(StandardEnums.MoveEnum.TakeSecretPassageAndSuggest, StandardEnums.LocationEnum.Hall);
-        var mockObject5 = new MoveViewModel(StandardEnums.MoveEnum.MakeAnAccusation);
-        var mockObject6 = new MoveViewModel(StandardEnums.MoveEnum.EndTurn);
-        var mockObject7 = new MoveViewModel(StandardEnums.MoveEnum.MoveToHallway, StandardEnums.LocationEnum.LibBill);
-
-        BindMoveOptionsToView(new List<MoveViewModel>() { mockObject1, mockObject2, mockObject3, mockObject4, mockObject5, mockObject6, mockObject7});
+        // Test code.  
+        //var mockObject1 = new MoveViewModel(StandardEnums.MoveEnum.MoveToHallway, StandardEnums.LocationEnum.DinKitch);
+        //var mockObject2 = new MoveViewModel(StandardEnums.MoveEnum.MoveToRoomAndSuggest, StandardEnums.LocationEnum.Library);
+        //var mockObject3 = new MoveViewModel(StandardEnums.MoveEnum.StayInRoomAndSuggest, StandardEnums.LocationEnum.Lounge);
+        //var mockObject4 = new MoveViewModel(StandardEnums.MoveEnum.TakeSecretPassageAndSuggest, StandardEnums.LocationEnum.Hall);
+        //var mockObject5 = new MoveViewModel(StandardEnums.MoveEnum.MakeAnAccusation);
+        //var mockObject6 = new MoveViewModel(StandardEnums.MoveEnum.EndTurn);
+        //var mockObject7 = new MoveViewModel(StandardEnums.MoveEnum.MoveToHallway, StandardEnums.LocationEnum.LibBill);
+        //BindMoveOptionsToView(new List<MoveViewModel>() { mockObject1, mockObject2, mockObject3, mockObject4, mockObject5, mockObject6, mockObject7});
 
         cachedMoveMessage = null;
     }

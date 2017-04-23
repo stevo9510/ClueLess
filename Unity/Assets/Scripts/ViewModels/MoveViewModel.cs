@@ -51,6 +51,6 @@ public class MoveViewModel
     /// <returns></returns>
     private string GetRoomName()
     {
-        return StandardValueRepository.Instance.GetLocationName(LocationID);
+        return StandardValueRepository.Instance.GetRoomName(LocationID);
     }
 }

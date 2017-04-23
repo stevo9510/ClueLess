@@ -204,7 +204,7 @@ public class StandardValueRepository : Singleton<StandardValueRepository>
         playerNames[playerID] = name;
     }
 
-    public string GetLocationName(StandardEnums.LocationEnum locationID)
+    public string GetRoomName(StandardEnums.LocationEnum locationID)
     {
         return locationNames[locationID];
     }
