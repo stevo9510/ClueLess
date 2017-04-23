@@ -46,7 +46,7 @@ public class Network : Singleton<Network>, IServerToClientMessagePublisher
 
     private void OnAccusationResultReceived(SocketIOEvent msg)
     {
-        DeserializeAndFireEvent(msg, EventAccusationMoveMade);
+        DeserializeAndFireEvent(msg, EventAccusationResultReceived);
     }
 
     private void OnAccusationMoveMade(SocketIOEvent msg)

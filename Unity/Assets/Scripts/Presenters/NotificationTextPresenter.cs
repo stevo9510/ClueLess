@@ -38,7 +38,7 @@ public class NotificationTextPresenter : MonoBehaviour {
         string accusedWeapon = GetWeaponName(obj.weaponID);
         string accusedRoom = GetRoomName(obj.roomID);
         AddNotification(string.Format("{0}: \"I accuse {1} of committing the crime in the {2} with the {3}.",
-            accusedPlayer, accusedWeapon, accusedRoom));
+            playerNameThatMadeAccusation, accusedPlayer, accusedWeapon, accusedRoom));
 
         if(obj.isCorrect)
         {
