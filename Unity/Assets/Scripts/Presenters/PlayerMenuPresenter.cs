@@ -63,7 +63,7 @@ public class PlayerMenuPresenter : MonoBehaviour {
 
     private void MessagePublisher_EventAccusationMoveMade(AccusationMoveMadeMessage msg)
     {
-        var accusingPlayerViewModel = playerViewModels.Where(player => player.PlayerID == msg.playerID).First();
+        var accusingPlayerViewModel = playerViewModels.Where(player => player.PlayerID == msg.playerThatMadeAccusation).First();
         accusingPlayerViewModel.IsEliminated = !msg.isCorrect;
         accusingPlayerViewModel.IsWinner = msg.isCorrect;
     }
