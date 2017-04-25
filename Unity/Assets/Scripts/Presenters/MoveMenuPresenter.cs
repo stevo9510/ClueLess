@@ -169,7 +169,7 @@ public class MoveMenuPresenter : MonoBehaviour {
     /// </summary>
     private void PromptForRoomSelection()
     {
-        MoveCameraToGameObjectWithSpecifiedDistance(RoomCardHost, -25.0F);
+        MoveCameraToGameObjectWithSpecifiedDistance(RoomCardHost, -35.0F);
         RoomCardSelectorPresenter.CardSelected += RoomCardSelectorPresenter_CardSelected;
     }
 
@@ -191,7 +191,7 @@ public class MoveMenuPresenter : MonoBehaviour {
     /// </summary>
     private void PromptForCharacterSelection()
     {
-        MoveCameraToGameObjectWithSpecifiedDistance(CharacterCardHost, -17.0F);
+        MoveCameraToGameObjectWithSpecifiedDistance(CharacterCardHost, -21.0F);
         CharacterCardSelectorPresenter.CardSelected += CharacterCardSelectorPresenter_CardSelected;
     }
 
@@ -213,7 +213,7 @@ public class MoveMenuPresenter : MonoBehaviour {
     /// </summary>
     private void PromptForWeaponSelection()
     {
-        MoveCameraToGameObjectWithSpecifiedDistance(WeaponCardHost, -17.0F);
+        MoveCameraToGameObjectWithSpecifiedDistance(WeaponCardHost, -21.0F);
         WeaponCardSelectorPresenter.CardSelected += WeaponCardSelectorPresenter_CardSelected;
     }
 

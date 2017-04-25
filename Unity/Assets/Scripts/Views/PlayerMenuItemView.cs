@@ -19,7 +19,7 @@ public class PlayerMenuItemView : MonoBehaviour
     private void Awake()
     {
         this.DEFAULT_BACKGROUND_COLOR = new Color(204.0F/255.0F, 232.0F/255.0F, 255.0F/255.0F, ACTIVE_ALPHA);
-        this.ELIMINATION_COLOR = new Color(1, 0, 0, 0.4F);
+        this.ELIMINATION_COLOR = new Color(205.0F/255.0F, 101.0F/255.0F, 101.0F/255.0F, 1.0F);
         this.INACTIVE_COLOR = new Color(DEFAULT_BACKGROUND_COLOR.r, DEFAULT_BACKGROUND_COLOR.g, DEFAULT_BACKGROUND_COLOR.b, INACTIVE_ALPHA);
     }
 
@@ -138,7 +138,11 @@ public class PlayerMenuItemView : MonoBehaviour
         }
         else if(this.playerViewModel.IsClient)
         {
-            this.PlayerNote.text = "You";
+            this.PlayerNote.text = "Your Assigned Player!";
+        }
+        else if(!this.playerViewModel.IsActive)
+        {
+            this.PlayerNote.text = "Has not Joined";
         }
         else
         {
