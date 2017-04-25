@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+///  Game board UI View that handles moving players and weapons to locations 
+/// </summary>
 public class GameBoardView : MonoBehaviour {
 
     #region All Game Objects
@@ -104,46 +107,6 @@ public class GameBoardView : MonoBehaviour {
         weaponGamePieces[StandardEnums.WeaponEnum.Wrench] = weaponWrench;
         InitializeRoomSubPositions(roomSubPositionsForPlayers);
         InitializeRoomSubPositions(roomSubPositionsForWeapons);
-
-        //MovePlayer(StandardEnums.PlayerEnum.Mustard, StandardEnums.LocationEnum.Hall);
-        //MovePlayer(StandardEnums.PlayerEnum.Scarlet, StandardEnums.LocationEnum.Hall);
-        //MovePlayer(StandardEnums.PlayerEnum.Peacock, StandardEnums.LocationEnum.Hall);
-        //MovePlayer(StandardEnums.PlayerEnum.Plum, StandardEnums.LocationEnum.Hall);
-        ////MovePlayer(StandardEnums.PlayerEnum.Peacock, StandardEnums.LocationEnum.Ballroom);
-        ////MovePlayer(StandardEnums.PlayerEnum.Green, StandardEnums.LocationEnum.Ballroom);
-
-        //MoveWeapon(StandardEnums.WeaponEnum.Candlestick, StandardEnums.LocationEnum.Hall, roomSubPositionsForWeapons);
-        //MoveWeapon(StandardEnums.WeaponEnum.Dagger, StandardEnums.LocationEnum.Hall, roomSubPositionsForWeapons);
-        //MoveWeapon(StandardEnums.WeaponEnum.LeadPipe, StandardEnums.LocationEnum.Hall, roomSubPositionsForWeapons);
-        //MoveWeapon(StandardEnums.WeaponEnum.Revolver, StandardEnums.LocationEnum.Hall, roomSubPositionsForWeapons);
-        ////MoveWeapon(StandardEnums.WeaponEnum.Rope, StandardEnums.LocationEnum.Study, roomSubPositionsForWeapons);
-        //MoveWeapon(StandardEnums.WeaponEnum.Wrench, StandardEnums.LocationEnum.Study, roomSubPositionsForWeapons);
-
-        //MovePlayer(StandardEnums.PlayerEnum.Mustard, StandardEnums.LocationEnum.BillBall);
-        //MovePlayer(StandardEnums.PlayerEnum.Peacock, StandardEnums.LocationEnum.LibCon);
-
-        //MovePlayer(StandardEnums.PlayerEnum.Orchid, StandardEnums.LocationEnum.Ballroom);
-        //MovePlayer(StandardEnums.PlayerEnum.Mustard, StandardEnums.LocationEnum.Study);
-
-        // Testing
-        //MoveWeapon(StandardEnums.WeaponEnum.Candlestick, StandardEnums.LocationEnum.Ballroom);
-        //MoveWeapon(StandardEnums.WeaponEnum.Dagger, StandardEnums.LocationEnum.Ballroom);
-
-        //MovePlayer(StandardEnums.PlayerEnum.Green, StandardEnums.LocationEnum.BillBall);
-        //MovePlayer(StandardEnums.PlayerEnum.Scarlet, StandardEnums.LocationEnum.BilliardRoom);
-
-    }
-
-    private void InitializeRoomSubPositions(List<RoomSubPosition> roomSubPositionCollection)
-    {
-        foreach (var roomID in Enum.GetValues(typeof(StandardEnums.RoomEnum)))
-        {
-            for (int index = 0; index < ROOM_SUB_POSITIONS; index++)
-            {
-                var roomSubPos = new RoomSubPosition((StandardEnums.RoomEnum)roomID, index);
-                roomSubPositionCollection.Add(roomSubPos);
-            }
-        }
     }
 
     /// <summary>
@@ -152,7 +115,7 @@ public class GameBoardView : MonoBehaviour {
     /// <param name="msg"></param>
     private void MessagePublisher_PlayerMoved(PlayerMovedMessage msg)
     {
-        MovePlayer(msg.playerID, msg.locationID);
+        MovePlayer(msg.playerID, msg.locationID, roomSubPositionsForPlayers);
     }
 
     /// <summary>
@@ -169,42 +132,31 @@ public class GameBoardView : MonoBehaviour {
     /// </summary>
     /// <param name="playerID"></param>
     /// <param name="locID"></param>
-    private void MovePlayer(StandardEnums.PlayerEnum playerID, StandardEnums.LocationEnum locID)
+    private void MovePlayer(StandardEnums.PlayerEnum playerID, StandardEnums.LocationEnum locID, 
+        List<RoomSubPosition> roomSubPositions)
     {
-        var currentSubPos = roomSubPositionsForPlayers.Where(rsp => rsp.entityID == (int)playerID).FirstOrDefault();
+        // get the current position
+        var currentSubPos = roomSubPositions.Where(rsp => rsp.entityID == (int)playerID).FirstOrDefault();
         if(currentSubPos != null)
         {
             currentSubPos.entityID = null;
         }
 
-        bool moveToSubPosition = false;
-        RoomSubPosition newSubPos = null;
-        if(StandardValueRepository.Instance.RoomToLocationEnumMapping.ContainsValue(locID))
-        {
-            var roomID = StandardValueRepository.Instance.RoomToLocationEnumMapping.Where(kvp => kvp.Value == locID).Select(kvp => kvp.Key).First();
-            newSubPos = roomSubPositionsForPlayers.Where(rsp => rsp.roomID == roomID && !rsp.entityID.HasValue).FirstOrDefault();
-            if(newSubPos != null)
-            {
-                newSubPos.entityID = (int)playerID;
-                moveToSubPosition = true;
-            }
-        }
+        RoomSubPosition newSubPos = GetNextMoveToSubPositionObject((int)playerID, locID, roomSubPositions);
 
         var playerTransform = playerGamePieces[playerID].transform;
+
+        // set the player transform = the locationTransform (plus a bit of a forward offset
         Transform locationTransform = locationObjects[locID].transform;
         playerTransform.position = locationTransform.position + (-1.0F * locationTransform.forward);
 
-        if (moveToSubPosition && newSubPos.subPositionID != 0)
+        // if in a room, offset based on the new sub position of the room (to help avoid collisions with objects)
+        if (newSubPos != null && newSubPos.subPositionID != 0)
         {
-            //var degreesOfFreedom = ROOM_SUB_POSITIONS - 1;
+            const float playerDegreeOffset = 30.0F; // players have a 30 degree offset from weapons to try and avoid some collisions
             int plusOrMinus = ((int)locID % 2 == 0) ? 1 : -1;
-            var degreesToRotate = (newSubPos.subPositionID - 1) * 60.0F + 30.0F;
-            var radians = Math.PI * degreesToRotate / 180.0F;
-            var upDistance = (float)Math.Sin(radians);
-            var rightDistance = (float)Math.Cos(radians);
-            playerTransform.position = playerTransform.position +
-                (upDistance * locationTransform.up * 2.0F * plusOrMinus) +
-                (rightDistance * locationTransform.right * 2.0F * plusOrMinus);
+            var degreesToRotate = (newSubPos.subPositionID - 1) * 60.0F + playerDegreeOffset;
+            TransformTargetToBeOffsetFromSourceByDegrees(playerTransform, locationTransform, plusOrMinus, degreesToRotate);
         }
     }
 
@@ -215,7 +167,6 @@ public class GameBoardView : MonoBehaviour {
     /// <param name="locID"></param>
     private void MoveWeapon(StandardEnums.WeaponEnum weaponID, StandardEnums.LocationEnum locID, List<RoomSubPosition> roomSubPositions)
     {
-
         var currentSubPos = roomSubPositions.Where(rsp => rsp.entityID == (int)weaponID).FirstOrDefault();
         if (currentSubPos != null)
         {
@@ -223,25 +174,31 @@ public class GameBoardView : MonoBehaviour {
         }
 
         RoomSubPosition newSubPos = GetNextMoveToSubPositionObject((int)weaponID, locID, roomSubPositions);
-
         var weaponTransform = weaponGamePieces[weaponID].transform;
         MoveTransformToLocation(weaponTransform, locID);
         Transform locationTransform = locationObjects[locID].transform;
         weaponTransform.position = locationTransform.position + (-1.0F * locationTransform.forward);
 
         weaponTransform.SetAsFirstSibling();
+
         if(newSubPos != null)
         {
             //var degreesOfFreedom = ROOM_SUB_POSITIONS - 1;
             int plusOrMinus = ((int)locID % 2 == 1) ? 1 : -1;
             var degreesToRotate = newSubPos.subPositionID * 60.0F;
-            var radians = Math.PI * degreesToRotate / 180.0F;
-            var upDistance = (float)Math.Sin(radians);
-            var rightDistance = (float)Math.Cos(radians);
-            weaponTransform.position = weaponTransform.position + 
-                (upDistance * locationTransform.up * 2.0F * plusOrMinus) +
-                (rightDistance * locationTransform.right * 2.0F * plusOrMinus);
+            TransformTargetToBeOffsetFromSourceByDegrees(weaponTransform, locationTransform, plusOrMinus, degreesToRotate);
         }
+    }
+
+    private static void TransformTargetToBeOffsetFromSourceByDegrees(Transform targetToTransform,
+        Transform sourceTransform, int plusOrMinus, float degreesToRotate)
+    {
+        var radians = Math.PI * degreesToRotate / 180.0F;
+        var upDistance = (float)Math.Sin(radians);
+        var rightDistance = (float)Math.Cos(radians);
+        targetToTransform.position = targetToTransform.position +
+            (upDistance * sourceTransform.up * 2.0F * plusOrMinus) +
+            (rightDistance * sourceTransform.right * 2.0F * plusOrMinus);
     }
 
     private static RoomSubPosition GetNextMoveToSubPositionObject(int entityID, StandardEnums.LocationEnum locID, List<RoomSubPosition> roomSubPositions)
@@ -279,12 +236,32 @@ public class GameBoardView : MonoBehaviour {
         //        (2.0F * locationTransform.up * (float)randomNumberGenerator.NextDouble() * plusOrMinusUp);
         //}
     }
+
+    /// <summary>
+    /// Initialize the room sub positions 
+    /// </summary>
+    /// <param name="roomSubPositionCollection"></param>
+    private void InitializeRoomSubPositions(List<RoomSubPosition> roomSubPositionCollection)
+    {
+        foreach (var roomID in Enum.GetValues(typeof(StandardEnums.RoomEnum)))
+        {
+            for (int index = 0; index < ROOM_SUB_POSITIONS; index++)
+            {
+                var roomSubPos = new RoomSubPosition((StandardEnums.RoomEnum)roomID, index);
+                roomSubPositionCollection.Add(roomSubPos);
+            }
+        }
+    }
     
+    /// <summary>
+    /// Class to handle storing entity (either weapon or player) locations with their sub position location
+    /// </summary>
     public class RoomSubPosition
     {
         public StandardEnums.RoomEnum roomID;
         public int subPositionID;
         public int? entityID;
+
         public RoomSubPosition(StandardEnums.RoomEnum rID, int pos)
         {
             this.roomID = rID;
