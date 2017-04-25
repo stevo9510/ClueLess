@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class NotificationTextPresenter : MonoBehaviour {
 
     public Text notificationTextbox;
-    public Scrollbar scrollBar;
+    public ScrollRect scrollRect;
     private IServerToClientMessagePublisher messagePublisher;
 
 	// Use this for initialization
@@ -23,6 +23,7 @@ public class NotificationTextPresenter : MonoBehaviour {
         messagePublisher.EventPlayersInGameChanged += MessagePublisher_EventPlayersInGameChanged;
         messagePublisher.EventPlayerMoved += MessagePublisher_EventPlayerMoved;
         messagePublisher.EventPlayerAssignedID += MessagePublisher_EventPlayerAssignedID;
+        
     }
 
     private void MessagePublisher_EventPlayerAssignedID(PlayerAssignedIDMessage obj)
@@ -136,7 +137,10 @@ public class NotificationTextPresenter : MonoBehaviour {
         if (!string.IsNullOrEmpty(notificationTextbox.text.Trim()))
             newLine = Environment.NewLine;
 
-        this.notificationTextbox.text = "•" + text + newLine + this.notificationTextbox.text;
+        this.notificationTextbox.text += newLine + "•" + text;
+
+        //Canvas.ForceUpdateCanvases();
+        //scrollRect.verticalNormalizedPosition = 0.5f;
         // scroll to bottom
     }
 
